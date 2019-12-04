@@ -1,3 +1,4 @@
+import 'dart:collection';
 ///  Is this a valid credit card number?
 ///  Are credit card numbers just a random combination of the digits from 0-9? NO!
 //  Credit card numbers are a systematic combination of numbers that can satisfy
@@ -18,6 +19,45 @@
 //  Example
 /// Input : 49927398716
 /// Output: 49927398716 passes the test
-
+bool checkCard(String cardNumber){
+ List<String> card=cardNumber.split("");
+ print(card);
+ List<String> reversedCard=[];
+ for(int i=card.length-1;i>=0;i--){
+   reversedCard.add(card[i]);
+ }
+ print(reversedCard);
+ if((partialSumS1(reversedCard)+partialSumS2(reversedCard))%10==0){
+   return true;
+ }
+ else{
+   return false;
+ }
+}
+partialSumS1(List<String> card){
+  int S1=0;
+  for(int i=0;i<card.length;i=i+2){
+    S1=S1+int.parse(card[i]);
+  }
+  return S1;
+}
+partialSumS2(List<String> card){
+  int S2=0;
+  for(int i=1;i<card.length;i=i+2){
+    S2=S2+reduceToOneDigit(int.parse(card[i])*2);
+  }
+  return S2;
+}
+int reduceToOneDigit(int input){
+  int output;
+  if(input>9){
+    output=(input ~/10)+input%10;
+  }
+  else{
+    output=input;
+  }
+  return output;
+}
 main() {
+  print(checkCard("49927398716"));
 }
